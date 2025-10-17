@@ -1,227 +1,346 @@
-// Celebration Effects
-function createCelebration() {
-  const container = document.getElementById("celebration");
+function startCelebration() {
+            const container = document.getElementById('celebrationContainer');
+            
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => createEnergyWave(container), i * 200);
+            }
 
-  // Energy Pulses
-  for (let i = 0; i < 3; i++) {
-    setTimeout(() => {
-      const pulse = document.createElement("div");
-      pulse.style.cssText = `
-position: absolute;
-top: 50%;
-left: 50%;
-width: 100px;
-height: 100px;
-border: 3px solid rgba(102, 126, 234, 0.6);
-border-radius: 50%;
-transform: translate(-50%, -50%);
-animation: expandPulse 2s ease-out forwards;
-`;
-      container.appendChild(pulse);
-      setTimeout(() => pulse.remove(), 2000);
-    }, i * 250);
-  }
+            setTimeout(() => createParticleBurst(container), 300);
 
-  // Geometric Shards
-  for (let i = 0; i < 24; i++) {
-    setTimeout(() => {
-      const shard = document.createElement("div");
-      const angle = (Math.PI * 2 * i) / 24;
-      const distance = 200 + Math.random() * 100;
-      const tx = Math.cos(angle) * distance;
-      const ty = Math.sin(angle) * distance;
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => createLightRay(container), i * 80);
+            }
 
-      shard.style.cssText = `
-position: absolute;
-left: 50%;
-top: 50%;
-width: 4px;
-height: 40px;
-background: linear-gradient(to bottom, rgba(102, 126, 234, 0.8), transparent);
-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-transform: translate(-50%, -50%);
-animation: shardFly 1.5s ease-out forwards;
---tx: ${tx}px;
---ty: ${ty}px;
---rotate: ${Math.random() * 720 - 360}deg;
-`;
-      container.appendChild(shard);
-      setTimeout(() => shard.remove(), 1500);
-    }, 200);
-  }
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => createGlowOrb(container), i * 150);
+            }
+        }
 
-  // Light Beams
-  for (let i = 0; i < 12; i++) {
-    setTimeout(() => {
-      const beam = document.createElement("div");
-      beam.style.cssText = `
-position: absolute;
-left: ${Math.random() * 100}%;
-top: 50%;
-width: 2px;
-height: 0;
-background: linear-gradient(to bottom, rgba(102, 126, 234, 0.6), transparent);
-transform: rotate(${Math.random() * 360}deg);
-transform-origin: top;
-animation: beamGrow 1.2s ease-out forwards;
-`;
-      container.appendChild(beam);
-      setTimeout(() => beam.remove(), 1200);
-    }, i * 80);
-  }
-}
+        function createEnergyWave(container) {
+            const wave = document.createElement('div');
+            wave.className = 'energy-wave';
+            const colors = ['rgba(102, 126, 234, 0.6)', 'rgba(118, 75, 162, 0.6)', 'rgba(240, 147, 251, 0.6)'];
+            wave.style.borderColor = colors[Math.floor(Math.random() * colors.length)];
+            container.appendChild(wave);
+            setTimeout(() => wave.remove(), 1500);
+        }
 
-// Add celebration keyframes
-const style = document.createElement("style");
-style.textContent = `
-@keyframes expandPulse {
-to { width: 1000px; height: 1000px; opacity: 0; border-width: 0; }
-}
-@keyframes shardFly {
-to { 
-transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) rotate(var(--rotate)); 
-opacity: 0; 
-}
-}
-@keyframes beamGrow {
-0% { height: 0; opacity: 0; }
-30% { opacity: 1; }
-100% { height: 150px; opacity: 0; }
-}
-`;
-document.head.appendChild(style);
+        function createParticleBurst(container) {
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const colors = ['#667eea', '#764ba2', '#f093fb', '#4facfe'];
 
-// Trigger celebration
-setTimeout(() => {
-  createCelebration();
-}, 2800);
+            for (let i = 0; i < 60; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle-burst';
+                particle.style.color = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.left = centerX + 'px';
+                particle.style.top = centerY + 'px';
+                
+                const angle = (Math.PI * 2 * i) / 60;
+                const velocity = Math.random() * 200 + 150;
+                const tx = Math.cos(angle) * velocity;
+                const ty = Math.sin(angle) * velocity;
+                
+                particle.style.setProperty('--tx', tx + 'px');
+                particle.style.setProperty('--ty', ty + 'px');
+                particle.style.animation = 'particleExpand 1.5s ease-out forwards';
+                
+                container.appendChild(particle);
+                setTimeout(() => particle.remove(), 1500);
+            }
+        }
 
-// Hide loading screen
-setTimeout(() => {
-  document.getElementById("loading").classList.add("fade-out");
-  setTimeout(() => {
-    document.getElementById("celebration").style.display = "none";
-  }, 800);
-}, 4000);
+        function createLightRay(container) {
+            const ray = document.createElement('div');
+            ray.className = 'light-ray';
+            ray.style.left = Math.random() * 100 + '%';
+            ray.style.top = '50%';
+            ray.style.transform = `rotate(${Math.random() * 360}deg)`;
+            const colors = [
+                'linear-gradient(to bottom, rgba(102, 126, 234, 0.8), transparent)',
+                'linear-gradient(to bottom, rgba(240, 147, 251, 0.8), transparent)',
+                'linear-gradient(to bottom, rgba(79, 172, 254, 0.8), transparent)'
+            ];
+            ray.style.background = colors[Math.floor(Math.random() * colors.length)];
+            container.appendChild(ray);
+            setTimeout(() => ray.remove(), 2000);
+        }
 
-// Custom Cursor
-const cursor = document.querySelector(".custom-cursor");
-const trail = document.querySelector(".cursor-trail");
-let cursorX = 0,
-  cursorY = 0;
-let trailX = 0,
-  trailY = 0;
+        function createGlowOrb(container) {
+            const orb = document.createElement('div');
+            orb.className = 'glow-orb';
+            const startX = window.innerWidth / 2;
+            const startY = window.innerHeight / 2;
+            orb.style.left = startX + 'px';
+            orb.style.top = startY + 'px';
+            
+            const angle = Math.random() * Math.PI * 2;
+            const distance = Math.random() * 300 + 200;
+            const tx = Math.cos(angle) * distance;
+            const ty = Math.sin(angle) * distance;
+            
+            orb.style.setProperty('--tx', tx + 'px');
+            orb.style.setProperty('--ty', ty + 'px');
+            
+            container.appendChild(orb);
+            setTimeout(() => orb.remove(), 3000);
+        }
 
-document.addEventListener("mousemove", (e) => {
-  cursorX = e.clientX;
-  cursorY = e.clientY;
-});
+        // Lorenz Attractor (Chaos Theory Visualization)
+        const chaosCanvas = document.getElementById('chaosCanvas');
+        const chaosCtx = chaosCanvas.getContext('2d');
+        chaosCanvas.width = window.innerWidth;
+        chaosCanvas.height = window.innerHeight;
 
-function updateCursor() {
-  cursor.style.left = cursorX + "px";
-  cursor.style.top = cursorY + "px";
+        class LorenzAttractor {
+            constructor(offsetX = 0.1, hue = 240) {
+                this.x = offsetX;
+                this.y = 0;
+                this.z = 0;
+                this.a = 10;
+                this.b = 28;
+                this.c = 8.0 / 3.0;
+                this.dt = 0.005;
+                this.points = [];
+                this.maxPoints = 2000;
+                this.hue = hue;
+            }
 
-  trailX += (cursorX - trailX) * 0.2;
-  trailY += (cursorY - trailY) * 0.2;
-  trail.style.left = trailX + "px";
-  trail.style.top = trailY + "px";
+            update() {
+                const dx = this.a * (this.y - this.x) * this.dt;
+                const dy = (this.x * (this.b - this.z) - this.y) * this.dt;
+                const dz = (this.x * this.y - this.c * this.z) * this.dt;
 
-  requestAnimationFrame(updateCursor);
-}
-updateCursor();
+                this.x += dx;
+                this.y += dy;
+                this.z += dz;
 
-// Cursor hover effects
-const interactiveElements = document.querySelectorAll(
-  ".btn, .event-card, .feature-card",
-);
-interactiveElements.forEach((el) => {
-  el.addEventListener("mouseenter", () => cursor.classList.add("hover"));
-  el.addEventListener("mouseleave", () => cursor.classList.remove("hover"));
-});
+                this.points.push({ x: this.x, y: this.y, z: this.z });
+                if (this.points.length > this.maxPoints) {
+                    this.points.shift();
+                }
+            }
 
-// Mouse parallax for title
-const mainTitle = document.getElementById("mainTitle");
-document.addEventListener("mousemove", (e) => {
-  const x = (e.clientX / window.innerWidth - 0.5) * 20;
-  const y = (e.clientY / window.innerHeight - 0.5) * 20;
-  if (mainTitle) {
-    mainTitle.style.transform = `translateX(${x}px) translateY(${y}px)`;
-  }
-});
+            draw() {
+                const scale = 8;
+                const centerX = chaosCanvas.width / 2;
+                const centerY = chaosCanvas.height / 2;
 
-// 3D tilt effect for cards
-const cards = document.querySelectorAll(".event-card, .feature-card");
-cards.forEach((card) => {
-  card.addEventListener("mousemove", (e) => {
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = (y - centerY) / 20;
-    const rotateY = (centerX - x) / 20;
+                chaosCtx.beginPath();
+                this.points.forEach((point, i) => {
+                    const screenX = centerX + point.x * scale;
+                    const screenY = centerY + point.y * scale;
+                    
+                    if (i === 0) {
+                        chaosCtx.moveTo(screenX, screenY);
+                    } else {
+                        chaosCtx.lineTo(screenX, screenY);
+                    }
+                });
 
-    card.style.transform = `translateY(-20px) scale(1.05) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-  });
+                chaosCtx.strokeStyle = `hsla(${this.hue}, 70%, 60%, 0.5)`;
+                chaosCtx.lineWidth = 1;
+                chaosCtx.stroke();
+            }
+        }
 
-  card.addEventListener("mouseleave", () => {
-    card.style.transform = "";
-  });
-});
+        const attractor1 = new LorenzAttractor(0.1, 240);
+        const attractor2 = new LorenzAttractor(-0.1, 260);
+        const attractors = [attractor1, attractor2];
 
-// Animated background
-const canvas = document.getElementById("bgCanvas");
-const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+        function animateChaos() {
+            chaosCtx.fillStyle = 'rgba(0, 0, 0, 0.02)';
+            chaosCtx.fillRect(0, 0, chaosCanvas.width, chaosCanvas.height);
 
-const particles = [];
-const particleCount = 100;
+            attractors.forEach(attractor => {
+                attractor.update();
+                attractor.draw();
+            });
 
-for (let i = 0; i < particleCount; i++) {
-  particles.push({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    z: Math.random() * 1000,
-    vz: Math.random() * 2 + 1,
-  });
-}
+            requestAnimationFrame(animateChaos);
+        }
 
-function animateBackground() {
-  ctx.fillStyle = "rgba(10, 10, 10, 0.1)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+        animateChaos();
 
-  particles.forEach((p) => {
-    p.z -= p.vz;
-    if (p.z <= 0) {
-      p.z = 1000;
-      p.x = Math.random() * canvas.width;
-      p.y = Math.random() * canvas.height;
-    }
+        // 3D Particle Background
+        const canvas = document.getElementById('canvas3d');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-    const scale = 1000 / (1000 + p.z);
-    const x = (p.x - canvas.width / 2) * scale + canvas.width / 2;
-    const y = (p.y - canvas.height / 2) * scale + canvas.height / 2;
-    const size = scale * 2;
+        class Particle3D {
+            constructor() {
+                this.reset();
+            }
 
-    const gradient = ctx.createRadialGradient(x, y, 0, x, y, size * 2);
-    gradient.addColorStop(0, `rgba(102, 126, 234, ${scale * 0.8})`);
-    gradient.addColorStop(0.5, `rgba(118, 75, 162, ${scale * 0.4})`);
-    gradient.addColorStop(1, "transparent");
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.z = Math.random() * 1000;
+                this.vz = Math.random() * 2 + 1;
+            }
 
-    ctx.fillStyle = gradient;
-    ctx.beginPath();
-    ctx.arc(x, y, size * 2, 0, Math.PI * 2);
-    ctx.fill();
-  });
+            update() {
+                this.z -= this.vz;
+                if (this.z <= 0) {
+                    this.reset();
+                    this.z = 1000;
+                }
+            }
 
-  requestAnimationFrame(animateBackground);
-}
+            draw() {
+                const scale = 1000 / (1000 + this.z);
+                const x2d = (this.x - canvas.width / 2) * scale + canvas.width / 2;
+                const y2d = (this.y - canvas.height / 2) * scale + canvas.height / 2;
+                const size = scale * 3;
 
-animateBackground();
+                const gradient = ctx.createRadialGradient(x2d, y2d, 0, x2d, y2d, size * 2);
+                gradient.addColorStop(0, `rgba(102, 126, 234, ${0.8 * scale})`);
+                gradient.addColorStop(0.5, `rgba(118, 75, 162, ${0.4 * scale})`);
+                gradient.addColorStop(1, 'rgba(102, 126, 234, 0)');
 
-// Resize handler
-window.addEventListener("resize", () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(x2d, y2d, size * 2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        const particles3D = Array.from({ length: 100 }, () => new Particle3D());
+
+        function animate3D() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            particles3D.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            requestAnimationFrame(animate3D);
+        }
+
+        animate3D();
+
+        // Floating Equations
+        const equations = [
+            '∫ f(x) dx',
+            '∑ innovation',
+            'lim creativity → ∞',
+            'dy/dx',
+            '∫₀^∞ e^x dx',
+            '∇ · F',
+            'π × creativity',
+            '∂f/∂t',
+            '∬ A dA',
+            '∫∫∫ dV',
+            'e^(iπ) + 1 = 0',
+            '∫ sin(x) dx'
+        ];
+
+        const eqContainer = document.getElementById('equations');
+        
+        function createEquation() {
+            const eq = document.createElement('div');
+            eq.className = 'floating-equation';
+            eq.textContent = equations[Math.floor(Math.random() * equations.length)];
+            eq.style.left = Math.random() * 80 + 10 + '%';
+            eq.style.animationDelay = Math.random() * 5 + 's';
+            eq.style.animationDuration = Math.random() * 10 + 15 + 's';
+            eqContainer.appendChild(eq);
+            
+            setTimeout(() => eq.remove(), 25000);
+        }
+
+        setInterval(createEquation, 3000);
+        for (let i = 0; i < 5; i++) createEquation();
+
+        // Custom Cursor
+        const cursor = document.getElementById('customCursor');
+        const cursorTrail = document.getElementById('cursorTrail');
+        let cursorX = 0, cursorY = 0;
+        let trailX = 0, trailY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            cursorX = e.clientX;
+            cursorY = e.clientY;
+        });
+
+        function updateCursor() {
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+
+            trailX += (cursorX - trailX) * 0.2;
+            trailY += (cursorY - trailY) * 0.2;
+            cursorTrail.style.left = trailX + 'px';
+            cursorTrail.style.top = trailY + 'px';
+
+            requestAnimationFrame(updateCursor);
+        }
+        updateCursor();
+
+        // Cursor hover effects
+        const interactiveElements = document.querySelectorAll('.cta-btn, .feature-card');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.classList.add('hover');
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hover');
+            });
+        });
+
+        // Mouse parallax effect
+        let mouseX = 0, mouseY = 0;
+        let currentX = 0, currentY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth - 0.5) * 50;
+            mouseY = (e.clientY / window.innerHeight - 0.5) * 50;
+        });
+
+        function updateParallax() {
+            currentX += (mouseX - currentX) * 0.1;
+            currentY += (mouseY - currentY) * 0.1;
+            
+            const logo = document.querySelector('.logo-3d');
+            if (logo) {
+                logo.style.transform = `translateX(${currentX * 0.5}px) translateY(${currentY * 0.5}px)`;
+            }
+
+            requestAnimationFrame(updateParallax);
+        }
+
+        updateParallax();
+
+        // Card 3D tilt effect
+        const cards = document.querySelectorAll('.feature-card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 15;
+                const rotateY = (centerX - x) / 15;
+                
+                card.style.transform = 
+                    `translateY(-5px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) rotateX(0) rotateY(0)';
+            });
+        });
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            chaosCanvas.width = window.innerWidth;
+            chaosCanvas.height = window.innerHeight;
+        });
