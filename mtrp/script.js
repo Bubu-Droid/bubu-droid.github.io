@@ -8,6 +8,7 @@ function resizeCanvas() {
 }
 
 resizeCanvas();
+window.addEventListener('resize', resizeCanvas, { passive: true });
 
 // Mathematical Formula Particles
 class FormulaParticle {
@@ -67,7 +68,7 @@ class GeometricShape {
         this.rotation = Math.random() * Math.PI * 2;
         this.rotationSpeed = (Math.random() - 0.5) * 0.02;
         this.opacity = Math.random() * 0.3 + 0.1;
-        this.sides = Math.floor(Math.random() * 3) + 3; // 3-5 sides
+        this.sides = Math.floor(Math.random() * 3) + 3;
     }
     
     update() {
@@ -90,7 +91,6 @@ class GeometricShape {
         ctx.translate(this.x, this.y);
         ctx.rotate(this.rotation);
         
-        // Draw polygon
         ctx.beginPath();
         for (let i = 0; i < this.sides; i++) {
             const angle = (Math.PI * 2 / this.sides) * i;
@@ -150,25 +150,21 @@ function animate() {
     ctx.fillStyle = isLightMode ? 'rgba(245, 247, 250, 0.1)' : 'rgba(10, 14, 39, 0.1)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-    // Draw and update shapes
     shapes.forEach(shape => {
         shape.update();
         shape.draw();
     });
     
-    // Draw and update formulas
     formulas.forEach(formula => {
         formula.update();
         formula.draw();
     });
     
-    // Draw and update dots
     dots.forEach(dot => {
         dot.update();
         dot.draw();
     });
     
-    // Draw connecting lines
     dots.forEach((d1, i) => {
         dots.slice(i + 1).forEach(d2 => {
             const dx = d1.x - d2.x;
@@ -192,14 +188,6 @@ function animate() {
 }
 
 animate();
-
-// Window Resize Handler
-window.addEventListener('resize', () => {
-    resizeCanvas();
-    formulas.forEach(f => f.reset());
-    shapes.forEach(s => s.reset());
-    dots.forEach(d => d.reset());
-});
 
 // Theme Toggle
 const themeToggle = document.getElementById('themeToggle');
@@ -328,25 +316,6 @@ document.querySelectorAll('.syllabus-card').forEach((card) => {
     card.style.transform = 'translateY(20px) scale(0.95)';
     card.style.transition = 'all 0.6s ease';
     syllabusObserver.observe(card);
-});
-
-// Animate event cards
-const eventObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry, index) => {
-        if (entry.isIntersecting) {
-            setTimeout(() => {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateX(0)';
-            }, index * 200);
-        }
-    });
-}, { threshold: 0.2 });
-
-document.querySelectorAll('.event-card').forEach((card, index) => {
-    card.style.opacity = '0';
-    card.style.transform = index % 2 === 0 ? 'translateX(-50px)' : 'translateX(50px)';
-    card.style.transition = 'all 0.8s ease';
-    eventObserver.observe(card);
 });
 
 // Animate info cards
@@ -586,3 +555,13 @@ if (registerSection) {
         createParticleBurst(rect.left + rect.width / 2, rect.top + 100);
     });
 }
+
+// Responsive navbar padding
+window.addEventListener('resize', () => {
+    const navbar = document.querySelector('.navbar');
+    if (window.innerWidth <= 768) {
+        navbar.style.padding = '15px 20px';
+    } else {
+        navbar.style.padding = '20px 40px';
+    }
+}, { passive: true });
