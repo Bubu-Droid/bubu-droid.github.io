@@ -815,10 +815,14 @@ body.light-mode #canvas3d {
 .contact-item {
   font-size: 1rem;
   color: var(--text-secondary);
-  background: rgba(0, 212, 255, 0.1);
+  background: rgba(0, 212, 255, 0.5);
   padding: 10px 20px;
   border-radius: 8px;
   display: inline-block;
+}
+
+.contact-item a {
+  text-decoration: none;
 }
 
 .footer-copyright {

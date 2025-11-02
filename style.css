@@ -1,4 +1,16 @@
 :root {
+  --bg-primary: #0a0e27;
+  --bg-secondary: rgba(15, 20, 40, 0.8);
+  --bg-card: rgba(20, 30, 60, 0.6);
+  --text-primary: #e8eaf6;
+  --text-muted: #7986cb;
+  --accent-gold: #ffd700;
+  --accent-teal: #00bfa5;
+  --border-color: rgba(0, 212, 255, 0.3);
+  --shadow-color: rgba(0, 212, 255, 0.4);
+  --navbar-bg: rgba(10, 14, 39, 0.95);
+  --chart-green: #00e676;
+  --chart-red: #ff5252;
   /* core */
   --bg-darkest: #0a0a0a;
   --bg-black: #000000;
@@ -49,6 +61,19 @@ body.light-mode {
   --bg-darkest: #f9f9f9; /* background equivalent of dark mode's darkest */
   --bg-black: #ffffff; /* main card background / page bg */
   --fg: #0a0a0a; /* primary text color */
+
+  --bg-primary: #f5f7fa;
+  --bg-secondary: rgba(255, 255, 255, 0.9);
+  --bg-card: rgba(255, 255, 255, 0.85);
+  --text-primary: #1a237e;
+  --text-muted: #5c6bc0;
+  --accent-gold: #f9a825;
+  --accent-teal: #00897b;
+  --border-color: rgba(2, 136, 209, 0.3);
+  --shadow-color: rgba(2, 136, 209, 0.2);
+  --navbar-bg: rgba(255, 255, 255, 0.95);
+  --chart-green: #43a047;
+  --chart-red: #e53935;
 
   /* text */
   --text-secondary: #4b4f6b; /* muted text */
