@@ -1,5 +1,3 @@
-# [bubu-droid.github.io][websitelink]
+# Some heading
 
-Repository for personal GitHub page.
-
-[websitelink]: https://bubu-droid.github.io
+Yet to be written.

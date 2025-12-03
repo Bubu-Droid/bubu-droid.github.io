@@ -1,4 +1,6 @@
 :root {
+  color-scheme: dark;
+
   --bg-primary: #0a0015;
   --bg-secondary: rgba(15, 5, 25, 0.6);
   --bg-card: rgba(138, 43, 226, 0.05);
@@ -11,6 +13,8 @@
   --accent-glow: #e0aaff;
   --border-color: rgba(138, 43, 226, 0.3);
   --shadow-color: rgba(138, 43, 226, 0.4);
+  --poster-color: rgba(138, 43, 226, 0.08);
+  --poster-hover-color: rgba(138, 43, 226, 0.15);
   --navbar-bg: rgba(10, 0, 21, 0.98);
   --particle-color: rgba(138, 43, 226, 0.6);
 }
@@ -423,22 +427,8 @@ body.light-mode #canvas3d {
   line-height: 1.8;
 }
 
-/* Poster Container */
-.poster-container {
-  text-align: center;
-  margin: 40px 0;
-  padding: 35px;
-  background: rgba(138, 43, 226, 0.08);
-  border: 2px dashed var(--border-color);
-  border-radius: 15px;
-  transition: all 0.3s ease;
-}
-
-.poster-container:hover {
-  background: rgba(138, 43, 226, 0.15);
-  border-color: var(--accent-tertiary);
-  transform: translateY(-5px);
-  box-shadow: 0 10px 40px var(--shadow-color);
+.poster-placeholder {
+  margin-bottom: 100px !important;
 }
 
 /* Registration */
@@ -529,14 +519,25 @@ body.light-mode .registration-box {
 }
 
 .poster-btn {
-  background: rgba(138, 43, 226, 0.2);
-  border: 2px solid var(--accent-primary);
+  display: inline-block;
+  padding: 14px 35px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
   color: var(--text-primary);
+  background: rgba(0, 212, 255, 0.15);
+  border: 2px solid var(--accent-primary);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .poster-btn:hover {
-  background: rgba(138, 43, 226, 0.35);
-  color: white;
+  background: rgba(0, 212, 255, 0.25);
+  /* color: white; */
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px var(--shadow-color);
 }
 
 /* Cultural Design */
