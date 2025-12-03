@@ -1,4 +1,6 @@
 :root {
+  color-scheme: dark;
+
   --bg-primary: #0a0e27;
   --bg-secondary: rgba(15, 20, 40, 0.85);
   --bg-card: rgba(25, 30, 55, 0.7);
@@ -404,6 +406,8 @@ body.light-mode #canvas3d {
 
 .contact-item {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
   gap: 10px;
   font-size: 0.95rem;
